@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { Layout } from "antd";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RestaurantPage from "./components/RestaurantPage";
 import RestaurantList from "./components/RestaurantList";
 import MenuBar from "./components/MenuBar";
@@ -8,6 +9,7 @@ import LogIn from "./components/Login";
 const { Header, Content } = Layout;
 
 function App() {
+  const [user, setUser] = useState();
   return (
     <BrowserRouter>
       <Layout className="Layout">
@@ -24,9 +26,17 @@ function App() {
                 </h1>
               }
             />
-            <Route path="/login" element={<LogIn />} />
-            <Route path="/add" element={<h1>Add</h1>} />
+            <Route
+              path="/restaurants/:restaurantId"
+              element={<RestaurantPage />}
+            />
             <Route path="/random" element={<h1>Random</h1>} />
+            <Route
+              path="/add"
+              element={
+                !user ? <LogIn setUser={setUser} /> : <h1>Add Restaurant</h1>
+              }
+            />
             <Route path="/" element={<RestaurantList />} />
           </Routes>
         </Content>

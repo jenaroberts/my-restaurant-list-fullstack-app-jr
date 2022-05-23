@@ -1,6 +1,11 @@
 import { Button, Form, Input } from "antd";
-
 import { initializeApp } from "firebase/app";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 
 // Import the functions you need from the SDKs you need
 // TODO: Add SDKs for Firebase products that you want to use
@@ -17,23 +22,52 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
 
-export default function LogIn() {
+export default function Login({ setUser }) {
+  const handleLogin = ({ email, password }) => {
+    const app = initializeApp(firebaseConfig); // connect to firebase
+    const auth = getAuth(app); // connect to firebase/auth
+    // login with Firebase Auth
+    signInWithEmailAndPassword(auth, email, password)
+      .then((res) => setUser(res.user))
+      .catch(console.error);
+  };
+  const handleGoogleLogin = () => {
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((res) => setUser(res.user))
+      .catch(console.error);
+  };
   return (
     <section style={{ padding: "2em" }}>
-      <Form labelCol={{ span: 0 }} wrapperCol={{ span: 16 }}>
-        <Form.Item label="Email" name="email">
+      <Form
+        onFinish={handleLogin}
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+      >
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[{ required: true, message: "Please enter a valid email" }]}
+        >
           <Input />
         </Form.Item>
-        <Form.Item label="Password" name="password">
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: "Please enter your password" }]}
+        >
           <Input.Password />
         </Form.Item>
-        <Form.Item wrapperCol={{ span: "16", offset: 8 }}>
+        <Form.Item wrapperCol={{ span: 16, offset: 8 }}>
           <Button type="primary" htmlType="submit">
             Login
           </Button>
-          <Input.Password />
+        </Form.Item>
+        <Form.Item wrapperCol={{ span: 16, offset: 8 }}>
+          <Button onClick={handleGoogleLogin}>Google Login</Button>
         </Form.Item>
       </Form>
     </section>

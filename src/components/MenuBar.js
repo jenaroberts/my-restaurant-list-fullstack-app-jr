@@ -4,33 +4,28 @@ import { Menu } from "antd";
 import {
   PlusCircleOutlined,
   QuestionCircleOutlined,
-  UserOutlined,
   HomeOutlined,
 } from "@ant-design/icons";
 
-export default function MenuBar() {
+const { Item } = Menu;
+
+export default function Menubar() {
   let navigate = useNavigate();
   return (
     <Menu theme="dark" mode="horizontal">
-      <Menu.Item
+      <Item
         key="home"
         onClick={() => navigate("/")}
-        icon={<HomeOutlined style={{ fontSize: "1.0em" }} />}
+        icon={<HomeOutlined style={{ fontSize: "1.8em" }} />}
       />
-      <Menu.Item
+      <Item
         key="add"
         onClick={() => navigate("/add")}
-        icon={<PlusCircleOutlined style={{ fontSize: "1.0em" }} />}
+        icon={<PlusCircleOutlined style={{ fontSize: "1.8em" }} />}
       />
-      <Menu.Item
+      <Item
         key="random"
-        onClick={() => navigate("/random")}
-        icon={<QuestionCircleOutlined style={{ fontSize: "1.0em" }} />}
-      />
-      <Menu.Item
-        key="user"
-        onClick={() => navigate("/login")}
-        icon={<UserOutlined style={{ fontSize: "1.0em" }} />}
+        icon={<QuestionCircleOutlined style={{ fontSize: "1.8em" }} />}
       />
     </Menu>
   );

@@ -8,6 +8,7 @@ export default function RestaurantCard({ restaurant }) {
   return (
     <Col style={{ width: "300px", margin: "1em" }}>
       <Card
+        loading={!restaurant}
         onClick={() => navigate(`/restaurants/${restaurant.id}`)}
         cover={
           restaurant && (
@@ -19,7 +20,7 @@ export default function RestaurantCard({ restaurant }) {
         }
         hoverable
       >
-        <Meta title={restaurant.name} description={restaurant.address} />
+        <Meta title={restaurant?.name} description={restaurant?.address} />
       </Card>
     </Col>
   );
